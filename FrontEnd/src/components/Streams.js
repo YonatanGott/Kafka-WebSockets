@@ -8,11 +8,6 @@ const Streams = ({ showConnect, showButton, handleConnect, topicOne, topicTwo, t
     const [showTopicThree, setShowTopicThree] = useState(false)
     const [showTopicFour, setShowTopicFour] = useState(false)
     const [showTopicFive, setShowTopicFive] = useState(false)
-    const topicOneTitle = 'Topic 1 Title';
-    const topicTwoTitle = 'Topic 2 Title';
-    const topicThreeTitle = 'Topic 3 Title';
-    const topicFourTitle = 'Topic 4 Title';
-    const topicFiveTitle = 'Topic 5 Title';
 
     const handleShowTopic = (e) => {
         switch (e.target.value) {
@@ -84,46 +79,56 @@ const Streams = ({ showConnect, showButton, handleConnect, topicOne, topicTwo, t
                                 <div className="indeterminate blue-grey lighten-5"></div>
                             </div>
                             <div className="streams-action">
-                                {
-                                    showTopicOne ? <button value="TopicOne" className="waves-effect waves-light btn-small blue-grey lighten-5 black-text topic-btn" onClick={handleHideTopic}>Topic 1</button> :
-                                        <button value="TopicOne" className="waves-effect waves-light btn-small blue-grey darken-4 topic-btn" onClick={handleShowTopic}>Topic 1</button>
-                                }
-                                {
-                                    showTopicTwo ? <button value="TopicTwo" className="waves-effect waves-light btn-small blue-grey lighten-5 black-text topic-btn" onClick={handleHideTopic}>Topic 2</button> :
-                                        <button value="TopicTwo" className="waves-effect waves-light btn-small blue-grey darken-4 topic-btn" onClick={handleShowTopic}>Topic 2</button>
-                                }
-                                {
-                                    showTopicThree ? <button value="TopicThree" className="waves-effect waves-light btn-small blue-grey lighten-5 black-text topic-btn" onClick={handleHideTopic}>Topic 3</button> :
-                                        <button value="TopicThree" className="waves-effect waves-light btn-small blue-grey darken-4 topic-btn" onClick={handleShowTopic}>Topic 3</button>
-                                }
-                                {
-                                    showTopicFour ? <button value="TopicFour" className="waves-effect waves-light btn-small blue-grey lighten-5 black-text topic-btn" onClick={handleHideTopic}>Topic 4</button> :
-                                        <button value="TopicFour" className="waves-effect waves-light btn-small blue-grey darken-4 topic-btn" onClick={handleShowTopic}>Topic 4</button>
-                                }
-                                {
-                                    showTopicFive ? <button value="TopicFive" className="waves-effect waves-light btn-small blue-grey lighten-5 black-text topic-btn" onClick={handleHideTopic}>Topic 5</button> :
-                                        <button value="TopicFive" className="waves-effect waves-light btn-small blue-grey darken-4 topic-btn" onClick={handleShowTopic}>Topic 5</button>
-                                }
+                                {topicOne[0] && <>{
+                                    showTopicOne ? <button value="TopicOne" className="waves-effect waves-light btn-small blue-grey lighten-5 black-text topic-btn" onClick={handleHideTopic}>{topicOne[0].topic}</button> :
+                                        <button value="TopicOne" className="waves-effect waves-light btn-small blue-grey darken-4 topic-btn" onClick={handleShowTopic}>{topicOne[0].topic}</button>
+                                }</>}
+                                {topicTwo[0] && <>
+                                    {
+                                        showTopicTwo ? <button value="TopicTwo" className="waves-effect waves-light btn-small blue-grey lighten-5 black-text topic-btn" onClick={handleHideTopic}>{topicTwo[0].topic}</button> :
+                                            <button value="TopicTwo" className="waves-effect waves-light btn-small blue-grey darken-4 topic-btn" onClick={handleShowTopic}>{topicTwo[0].topic}</button>
+                                    }
+                                </>}
+                                {topicThree[0] && <>
+                                    {
+                                        showTopicThree ? <button value="TopicThree" className="waves-effect waves-light btn-small blue-grey lighten-5 black-text topic-btn" onClick={handleHideTopic}> {topicThree[0].topic}</button> :
+                                            <button value="TopicThree" className="waves-effect waves-light btn-small blue-grey darken-4 topic-btn" onClick={handleShowTopic}> {topicThree[0].topic}</button>
+                                    }
+                                </>}
+                                {topicFour[0] && <>
+                                    {
+                                        showTopicFour ? <button value="TopicFour" className="waves-effect waves-light btn-small blue-grey lighten-5 black-text topic-btn" onClick={handleHideTopic}>{topicFour[0].topic}</button> :
+                                            <button value="TopicFour" className="waves-effect waves-light btn-small blue-grey darken-4 topic-btn" onClick={handleShowTopic}>{topicFour[0].topic}</button>
+                                    }
+                                </>}
+                                {topicFive[0] && <>
+                                    {
+                                        showTopicFive ? <button value="TopicFive" className="waves-effect waves-light btn-small blue-grey lighten-5 black-text topic-btn" onClick={handleHideTopic}>{topicFive[0].topic}</button> :
+                                            <button value="TopicFive" className="waves-effect waves-light btn-small blue-grey darken-4 topic-btn" onClick={handleShowTopic}>{topicFive[0].topic}</button>
+                                    }
+                                </>}
                             </div>
                         </div>
                     </div>
                 }
             </div>
-            {
-                showTopicOne && <StreamTable stream={topicOne} topic={topicOneTitle} />
-            }
-            {
-                showTopicTwo && <StreamTable stream={topicTwo} topic={topicTwoTitle} />
-            }
-            {
-                showTopicThree && <StreamTable stream={topicThree} topic={topicThreeTitle} />
-            }
-            {
-                showTopicFour && <StreamTable stream={topicFour} topic={topicFourTitle} />
-            }
-            {
-                showTopicFive && <StreamTable stream={topicFive} topic={topicFiveTitle} />
-            }
+            <div className="row">
+                {
+                    showTopicOne && <StreamTable stream={topicOne} topic={topicOne[0].topic} />
+                }
+                {
+                    showTopicTwo && <StreamTable stream={topicTwo} topic={topicTwo[0].topic} />
+                }
+                {
+                    showTopicThree && <StreamTable stream={topicThree} topic={topicThree[0].topic} />
+                }
+                {
+                    showTopicFour && <StreamTable stream={topicFour} topic={topicFour[0].topic} />
+                }
+                {
+                    showTopicFive && <StreamTable stream={topicFive} topic={topicFive[0].topic} />
+                }
+            </div>
         </div >
     )
 

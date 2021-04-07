@@ -50,8 +50,31 @@
 .topic-btn {
 	font-weight: 600;
 	font-size: 1.1rem;
+	text-transform: none;
 }
 .log-item {
 	border-color: #263238;
 	margin: 0.4rem !important;
+}
+.select-topics {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	margin: 0;
+}
+.select-topics > p > label {
+	color: white;
+}
+.select-topics > p > label > span {
+	padding-left: 1.7rem !important;
+	margin-right: 1rem;
+}
+[type="radio"]:not(:checked) + span:before,
+[type="radio"]:not(:checked) + span:after {
+	border-color: black !important;
+}
+[type="radio"]:checked + span:before,
+[type="radio"]:checked + span:after {
+	border-color: white !important;
+	background-color: white !important;
 }
