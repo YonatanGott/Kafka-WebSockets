@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import LogCard from './LogCard';
+// API
+import { getAllLogs, getAllTopics } from '../lib/api'
 
 const Logs = () => {
     const [logs, setLogs] = useState([])
+    const [topics, setTopics] = useState([])
 
     const getLogs = async () => {
-        let res = await axios.get("http://localhost:5000/api/logs");
-        let data = res.data;
-        setLogs(data)
+        const data = await getAllLogs()
+        const topics = await getAllTopics()
+        setLogs(data.logs);
+        setTopics(topics.topics)
     };
 
     useEffect(() => {
@@ -18,11 +21,13 @@ const Logs = () => {
     return (
         <div className="container">
             <h2>Logs</h2>
-            {
-                logs.map((log) => {
-                    return <LogCard log={log} key={log._id} />
-                })
-            }
+            <div className="row">
+                {
+                    logs.map((log) => {
+                        return <LogCard log={log} topics={topics} key={log._id} />
+                    })
+                }
+            </div>
         </div>
     )
 }

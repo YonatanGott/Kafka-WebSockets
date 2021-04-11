@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+// API
+import { sendLog } from '../lib/api';
 
-
-
-const LogCard = ({ log }) => {
+const LogCard = ({ log, topics }) => {
     const [showLog, setShowLog] = useState(false)
+    const [showSend, setShowSend] = useState(false)
+    const [loading] = useState(false)
     const [topic, setTopic] = useState()
 
     // Date and Time
@@ -25,6 +26,9 @@ const LogCard = ({ log }) => {
     const handleHideLog = () => {
         setShowLog(false)
     }
+    const handleShowSend = () => {
+        setShowSend(true)
+    }
 
     const handleSelectTopic = (e) => {
         setTopic(e.target.value)
@@ -34,80 +38,71 @@ const LogCard = ({ log }) => {
         e.preventDefault();
         if (topic) {
             let selectedTopic = topic;
-            await axios.post("http://localhost:5000/api/logs", {
-                id: log._id,
-                topic: selectedTopic,
-            });
+            await sendLog(selectedTopic, log._id)
+            setShowSend(false)
         } else {
             alert('Select Topic')
         }
     }
 
     return (
-        <div className="row">
-            <div className="col s12">
-                <div className="card-panel teal">
-                    <h5 className="card-title white-text"> {title} </h5>
-                    <div className="card-content white-text">
-                        <span>
-                            {showLog ?
-                                <button className="waves-effect waves-light btn-small blue-grey lighten-5 black-text log-btn" onClick={handleHideLog}>Hide Log</button> :
-                                <button className="waves-effect waves-light btn-small blue-grey darken-4 log-btn" onClick={handleShowLog}>Show Log</button>}
-                            {
-                                showLog && <ul className="list-group left-align">
-                                    {log.data.map((log, index) => {
-                                        return <li key={index}>
-                                            <blockquote className="log-item">
-                                                {log}
-                                            </blockquote>
-                                        </li>
-                                    })}
-                                </ul>
-                            }
-                        </span>
-                        <p>
-                            <b>Date: </b>{date}
-                        </p>
-                        <p>
-                            <b>Time: </b>{time}
-                        </p>
-                    </div>
-                    <form action="#" onSubmit={handleSubmit} >
-                        <div className="input-field select-topics">
-                            <p>
-                                <label>
-                                    <input className="radio-btn" name="group1" type="radio" onChange={handleSelectTopic} value='StreamOne' />
-                                    <span>Topic 1</span>
-                                </label>
-                            </p>
-                            <p>
-                                <label>
-                                    <input className="radio-btn" name="group1" type="radio" onChange={handleSelectTopic} value='StreamTwo' />
-                                    <span>Topic 2</span>
-                                </label>
-                            </p>
-                            <p>
-                                <label>
-                                    <input className="radio-btn" name="group1" type="radio" onChange={handleSelectTopic} value='StreamThree' />
-                                    <span>Topic 3</span>
-                                </label>
-                            </p>
-                            <p>
-                                <label>
-                                    <input className="radio-btn" name="group1" type="radio" onChange={handleSelectTopic} value='StreamFour' />
-                                    <span>Topic 4</span>
-                                </label>
-                            </p>
-                            <p>
-                                <label>
-                                    <input className="radio-btn" name="group1" type="radio" onChange={handleSelectTopic} value='StreamFive' />
-                                    <span>Topic 5</span>
-                                </label>
-                            </p>
-                        </div>
-                        <button type="submit" className="waves-effect waves-light btn blue-grey darken-4 send-btn" >Send Log</button>
-                    </form>
+        <div className="col s12">
+            <div className="card-panel teal">
+                <h5 className="card-title white-text"> {title} </h5>
+                <div className="card-content white-text">
+                    <span>
+                        {showLog ?
+                            <button className="waves-effect waves-light btn-small blue-grey lighten-5 black-text log-btn" onClick={handleHideLog}>Hide Log</button> :
+                            <button className="waves-effect waves-light btn-small blue-grey darken-4 log-btn" onClick={handleShowLog}>Show Log</button>}
+                        {
+                            showLog && <ul className="list-group left-align">
+                                {log.data.map((log, index) => {
+                                    return <li key={index}>
+                                        <blockquote className="log-item">
+                                            {log}
+                                        </blockquote>
+                                    </li>
+                                })}
+                            </ul>
+                        }
+                    </span>
+                    <p>
+                        <b>Date: </b>{date}
+                    </p>
+                    <p>
+                        <b>Time: </b>{time}
+                    </p>
                 </div>
+                {
+                    !showSend &&
+                    <button className="waves-effect waves-light btn-large blue-grey darken-4 send-btn" onClick={handleShowSend} >Choose Topic To Send Log</button>
+                }
+                {
+                    loading &&
+                    <div className="progress blue-grey darken-2">
+                        <div className="indeterminate blue-grey lighten-5"></div>
+                    </div>
+                }
+                {
+                    showSend &&
+                    <form action="#" onSubmit={handleSubmit} >
+                        <div className="input-field select-topics valign-wrapper">
+                            {
+                                topics.map((topic, index) => {
+                                    return (
+                                        <p key={index}>
+                                            <label>
+                                                <input className="radio-btn" name="group1" type="radio" onChange={handleSelectTopic} value={topic} />
+                                                <span>{topic}</span>
+                                            </label>
+                                        </p>
+                                    )
+                                })
+                            }
+                            <button type="submit" className="waves-effect waves-light btn blue-grey darken-4 send-btn" >Send Log</button>
+                        </div>
+                    </form>
+                }
             </div>
         </div>
     )

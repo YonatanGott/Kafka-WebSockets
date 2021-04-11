@@ -36,6 +36,9 @@
 		transform: rotate(360deg);
 	}
 }
+.col {
+	overflow: auto;
+}
 .navbar {
 	text-align: center;
 }
@@ -77,4 +80,23 @@
 [type="radio"]:checked + span:after {
 	border-color: white !important;
 	background-color: white !important;
+}
+.stream-col {
+	max-height: 100vh;
+	overflow: auto;
+}
+.five-topics {
+	margin-left: 2.5rem !important;
+}
+.checkbox-label {
+	color: white !important;
+}
+[type="checkbox"] + span:not(.lever):before,
+[type="checkbox"]:not(.filled-in) + span:not(.lever):after {
+	border-color: white;
+}
+[type="checkbox"] + span:not(.lever):before,
+[type="checkbox"]:not(.filled-in) + span:not(.lever):after {
+	border-right: 2px solid white !important;
+	border-bottom: 2px solid white !important;
 }
