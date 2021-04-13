@@ -10,10 +10,6 @@ let gameLog = new Schema({
         type: String,
         required: true
     },
-    topic: {
-        type: String,
-        required: true
-    },
     time: {
         type: Date,
         default: Date.now

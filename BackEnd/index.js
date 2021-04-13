@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const http = require('http').Server(app);
 const port = 5000
 
+// Express
 app.use(
     cors({
         origin: true,
@@ -21,10 +22,9 @@ mongoose.connect('mongodb://localhost/test',
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
-//Kafka 
+// Kafka 
 const { consumer } = require('./utils/kafka');
 const { consumerMessage } = require('./utils/kafka');
-
 
 // Sockets
 const io = require('socket.io')(http, {
@@ -48,6 +48,7 @@ io.on('connection', async function (socket) {
             topic: message.topic,
             offset: message.offset,
         });
+        // Send Data to Log
         consumerMessage(message, message.topic)
     });
     //Whenever someone disconnects 
@@ -56,10 +57,11 @@ io.on('connection', async function (socket) {
     });
 });
 
-
 // Routes
 const logsRoute = require('./routes/logs')
 app.use('/api/logs', logsRoute);
+const topicsRoute = require('./routes/topics')
+app.use('/api/topics', topicsRoute.router);
 
 app.get('/', (req, res) => {
     res.send('Hello')
