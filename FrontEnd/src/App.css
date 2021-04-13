@@ -1,102 +1,38 @@
 .App {
-	text-align: center;
+  text-align: center;
 }
 
 .App-logo {
-	height: 40vmin;
-	pointer-events: none;
+  height: 40vmin;
+  pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-	.App-logo {
-		animation: App-logo-spin infinite 20s linear;
-	}
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
 }
 
 .App-header {
-	background-color: #282c34;
-	min-height: 100vh;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	font-size: calc(10px + 2vmin);
-	color: white;
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
 }
 
 .App-link {
-	color: #61dafb;
+  color: #61dafb;
 }
 
 @keyframes App-logo-spin {
-	from {
-		transform: rotate(0deg);
-	}
-	to {
-		transform: rotate(360deg);
-	}
-}
-.col {
-	overflow: auto;
-}
-.navbar {
-	text-align: center;
-}
-.connect-card {
-	padding: 1rem;
-	margin: 0;
-}
-.streams-action {
-	display: flex;
-	justify-content: space-around;
-}
-.topic-btn {
-	font-weight: 600;
-	font-size: 1.1rem;
-	text-transform: none;
-}
-.log-item {
-	border-color: #263238;
-	margin: 0.4rem !important;
-}
-.select-topics {
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	margin: 0;
-}
-.select-topics > p > label {
-	color: white;
-}
-.select-topics > p > label > span {
-	padding-left: 1.7rem !important;
-	margin-right: 1rem;
-}
-[type="radio"]:not(:checked) + span:before,
-[type="radio"]:not(:checked) + span:after {
-	border-color: black !important;
-}
-[type="radio"]:checked + span:before,
-[type="radio"]:checked + span:after {
-	border-color: white !important;
-	background-color: white !important;
-}
-.stream-col {
-	max-height: 100vh;
-	overflow: auto;
-}
-.five-topics {
-	margin-left: 2.5rem !important;
-}
-.checkbox-label {
-	color: white !important;
-}
-[type="checkbox"] + span:not(.lever):before,
-[type="checkbox"]:not(.filled-in) + span:not(.lever):after {
-	border-color: white;
-}
-[type="checkbox"] + span:not(.lever):before,
-[type="checkbox"]:not(.filled-in) + span:not(.lever):after {
-	border-right: 2px solid white !important;
-	border-bottom: 2px solid white !important;
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

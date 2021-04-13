@@ -1,12 +1,63 @@
 import React, { useState } from 'react';
+import {
+    Grid,
+    Paper,
+    Typography,
+    Button,
+    List,
+    ListItem,
+    ListItemText,
+    LinearProgress,
+    Modal,
+    Backdrop,
+} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 // API
 import { sendLog } from '../lib/api';
 
+const useStyles = makeStyles(() => ({
+    paper: {
+        paddingBottom: "1rem",
+        paddingTop: "1rem"
+    },
+    list: {
+        overflow: "auto",
+        maxHeight: "40vh"
+    },
+    listItem: {
+        '&:hover': {
+            background: "lightgrey",
+        },
+    },
+    logBtnActive: {
+        backgroundColor: "black",
+        color: "white",
+        '&:hover': {
+            background: "darkgrey",
+        },
+    },
+    logBtnSent: {
+        backgroundColor: "black",
+        color: "white",
+        '&:hover': {
+            background: "black",
+            cursor: "pointer!important",
+        },
+    },
+    modal: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+}));
+
 const LogCard = ({ log, topics }) => {
+    const classes = useStyles();
     const [showLog, setShowLog] = useState(false)
-    const [showSend, setShowSend] = useState(false)
-    const [loading] = useState(false)
-    const [topic, setTopic] = useState()
+    const [showSend, setShowSend] = useState(true)
+    const [loading, setLoading] = useState(false)
+    const [showSent, setShowSent] = useState(false)
+    const [open, setOpen] = useState(false);
 
     // Date and Time
     let dateArray = log.time.split('T');
@@ -22,89 +73,75 @@ const LogCard = ({ log, topics }) => {
 
     const handleShowLog = () => {
         setShowLog(true)
+        setOpen(true)
     }
     const handleHideLog = () => {
         setShowLog(false)
+        setOpen(false)
     }
-    const handleShowSend = () => {
-        setShowSend(true)
-    }
-
-    const handleSelectTopic = (e) => {
-        setTopic(e.target.value)
-    }
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (topic) {
-            let selectedTopic = topic;
-            await sendLog(selectedTopic, log._id)
-            setShowSend(false)
+    const handleSendLog = async () => {
+        setShowSend(false)
+        setLoading(true)
+        const res = await sendLog(log._id)
+        if (res === 'Sent') {
+            setLoading(false)
+            setShowSent(true)
         } else {
-            alert('Select Topic')
+            setLoading(false)
+            console.log(res);
         }
     }
 
     return (
-        <div className="col s12">
-            <div className="card-panel teal">
-                <h5 className="card-title white-text"> {title} </h5>
-                <div className="card-content white-text">
-                    <span>
-                        {showLog ?
-                            <button className="waves-effect waves-light btn-small blue-grey lighten-5 black-text log-btn" onClick={handleHideLog}>Hide Log</button> :
-                            <button className="waves-effect waves-light btn-small blue-grey darken-4 log-btn" onClick={handleShowLog}>Show Log</button>}
-                        {
-                            showLog && <ul className="list-group left-align">
-                                {log.data.map((log, index) => {
-                                    return <li key={index}>
-                                        <blockquote className="log-item">
-                                            {log}
-                                        </blockquote>
-                                    </li>
-                                })}
-                            </ul>
-                        }
-                    </span>
-                    <p>
-                        <b>Date: </b>{date}
-                    </p>
-                    <p>
-                        <b>Time: </b>{time}
-                    </p>
-                </div>
+        <Grid item xs={6} sm={4}>
+            <Paper elevation={2} className={classes.paper} >
+                <Typography variant="h5" gutterBottom className={classes.title}>
+                    {title}
+                </Typography>
+                {showLog ?
+                    <Button variant="outlined" onClick={handleHideLog} className={classes.logBtnActive}>Hide Log</Button> :
+                    <Button variant="outlined" onClick={handleShowLog} color="primary" className={classes.btn}>Show Log</Button>
+                }
+                <Modal
+                    className={classes.modal}
+                    open={open}
+                    onClose={handleHideLog}
+                    closeAfterTransition
+                    BackdropComponent={Backdrop}
+                    BackdropProps={{
+                        timeout: 500,
+                    }}
+                >
+                    <Paper>
+                        <List className={classes.list}>
+                            {log.data.map((log, index) => {
+                                return <ListItem key={index} className={classes.listItem}>
+                                    <ListItemText>{log}</ListItemText>
+                                </ListItem>
+                            })}
+                        </List>
+                    </Paper>
+                </Modal>
+                <Typography variant="subtitle1">
+                    <b>Date:</b> {date}
+                </Typography>
+                <Typography variant="subtitle1">
+                    <b>Time:</b> {time}
+                </Typography>
                 {
-                    !showSend &&
-                    <button className="waves-effect waves-light btn-large blue-grey darken-4 send-btn" onClick={handleShowSend} >Choose Topic To Send Log</button>
+                    showSend &&
+                    <Button variant="outlined" onClick={handleSendLog} className={classes.btn} color="primary" >Send Log</Button>
                 }
                 {
                     loading &&
-                    <div className="progress blue-grey darken-2">
-                        <div className="indeterminate blue-grey lighten-5"></div>
-                    </div>
+                    <LinearProgress />
                 }
                 {
-                    showSend &&
-                    <form action="#" onSubmit={handleSubmit} >
-                        <div className="input-field select-topics valign-wrapper">
-                            {
-                                topics.map((topic, index) => {
-                                    return (
-                                        <p key={index}>
-                                            <label>
-                                                <input className="radio-btn" name="group1" type="radio" onChange={handleSelectTopic} value={topic} />
-                                                <span>{topic}</span>
-                                            </label>
-                                        </p>
-                                    )
-                                })
-                            }
-                            <button type="submit" className="waves-effect waves-light btn blue-grey darken-4 send-btn" >Send Log</button>
-                        </div>
-                    </form>
+                    showSent &&
+                    <Button variant="outlined" className={classes.logBtnSent} >Log Sent</Button>
                 }
-            </div>
-        </div>
+            </Paper>
+        </Grid>
     )
 }
 export default LogCard;

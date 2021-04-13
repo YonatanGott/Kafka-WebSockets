@@ -12,12 +12,11 @@ export async function getAllLogs() {
         console.error(error);
     }
 };
-// Send log to Topic
-export async function sendLog(topic, id) {
+// Pagination
+export async function logPagination(page) {
     try {
-        const response = await axios.post(baseUrl + "/api/logs", {
-            id: id,
-            topic: topic,
+        const response = await axios.post(baseUrl + "/api/logs/pagination", {
+            page: page,
         });
         const data = response.data;
         return data;
@@ -25,21 +24,11 @@ export async function sendLog(topic, id) {
         console.error(error);
     }
 }
-// Get All Topics
-export async function getAllTopics() {
+// Send log to Topic
+export async function sendLog(id) {
     try {
-        const res = await axios.get(baseUrl + "/api/topics");
-        const data = res.data;
-        return data
-    } catch (error) {
-        console.error(error);
-    }
-};
-// Send Chosen Topics
-export async function sendAnalyticsTopics(topics) {
-    try {
-        const response = await axios.post(baseUrl + "/api/topics", {
-            topics: topics,
+        const response = await axios.post(baseUrl + "/api/logs", {
+            id: id,
         });
         const data = response.data;
         return data;

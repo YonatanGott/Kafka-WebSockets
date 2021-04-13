@@ -1,16 +1,13 @@
 import React from 'react';
-
+import { Container } from '@material-ui/core';
 
 const Home = () => {
 
+
     return (
-        <div className="container">
-            <h2>Home</h2>
-            <div className="row">
-                <div className="col s12">
-                </div>
-            </div>
-        </div>
+        <Container>
+
+        </Container>
     )
 }
 export default Home;
