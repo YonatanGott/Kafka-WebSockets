@@ -15,6 +15,10 @@ const useStyles = makeStyles(() => ({
     topicBtn: {
         margin: "1rem",
         textTransform: "none",
+        backgroundColor: '#e0f7fa',
+        '&:hover': {
+            background: "#b2ebf2",
+        },
     },
     topicBtnActive: {
         margin: "1rem",
@@ -22,7 +26,7 @@ const useStyles = makeStyles(() => ({
         color: "white",
         textTransform: "none",
         '&:hover': {
-            background: "darkgrey",
+            background: "#00838f",
         },
     },
     title: {

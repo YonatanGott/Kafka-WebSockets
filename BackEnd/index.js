@@ -42,6 +42,7 @@ io.on('connection', async function (socket) {
     })
     consumer.on('message', function (message) {
         // Websocket to front-end
+        console.log('Message:', message);
         socket.emit('data', {
             id: socket.id,
             data: message.value,

@@ -1,6 +1,6 @@
 import React, {
     useState,
-    useContext
+    useContext,
 } from 'react';
 import Chart from './Chart';
 import { TopicContext } from '../contexts/TopicContext';
@@ -16,21 +16,35 @@ import { makeStyles } from '@material-ui/core/styles';
 import Radar from './Radar';
 
 
+
 const useStyles = makeStyles(() => ({
     chartBtn: {
-        margin: "1rem"
+        margin: "1rem",
+        backgroundColor: '#e0f7fa',
+        '&:hover': {
+            background: "#b2ebf2",
+        },
     },
     chartBtnActive: {
         margin: "1rem",
         backgroundColor: "black",
         color: "white",
         '&:hover': {
-            background: "darkgrey",
+            background: "#00838f",
         },
     },
-    header: {
-        paddingLef: "0 !important",
-        marginLeft: "4rem"
+    resetBtn: {
+        backgroundColor: "maroon",
+        color: "white",
+        '&:hover': {
+            background: "#00838f",
+        },
+    },
+    totalBtn: {
+        backgroundColor: 'cyan',
+        '&:hover': {
+            background: "#b2ebf2",
+        },
     },
     title: {
         marginTop: "1.2rem"
@@ -44,8 +58,8 @@ const useStyles = makeStyles(() => ({
         justifyContent: 'center',
     },
     paper: {
-        height: "50vh",
-        width: "50%"
+        height: "55vh",
+        width: "70%"
     },
 }));
 
@@ -73,7 +87,13 @@ const Graphs = () => {
         reactionTime,
         precision,
         targetAcquisition,
-        concentration, } = useContext(TopicContext)
+        concentration,
+        total,
+        resetCharts } = useContext(TopicContext)
+
+    const handleReset = () => {
+        resetCharts()
+    }
 
     const handleShowChart = (e) => {
         switch (e.currentTarget.value) {
@@ -151,7 +171,9 @@ const Graphs = () => {
 
     // Modal
     const handleOpen = () => {
-        setOpen(true);
+        if (total.length > 1) {
+            setOpen(true);
+        }
     };
     const handleClose = () => {
         setOpen(false);
@@ -167,7 +189,10 @@ const Graphs = () => {
                 justify="space-between"
                 alignItems="center"
             >
-                <Grid item xs={11} sm={11} >
+                <Grid item xs={1} sm={1}  >
+                    <Button variant="outlined" className={classes.resetBtn} onClick={handleReset} >Reset Charts</Button>
+                </Grid>
+                <Grid item xs={10} sm={10} >
                     <Grid
                         className={classes.header}
                         container

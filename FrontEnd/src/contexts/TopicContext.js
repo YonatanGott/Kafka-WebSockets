@@ -82,7 +82,19 @@ const TopicContextProvider = (props) => {
     }
 
     // Reset Chart 
-
+    const resetCharts = () => {
+        setAccuracy([])
+        setAccuracy2([])
+        setAnticipation([])
+        setVisualAwareness([])
+        setClearing([])
+        setSpeed([])
+        setPrecision([])
+        setReactionTime([])
+        setTargetAcquisition([])
+        setConcentration([])
+        setTotal([])
+    }
 
     // WebSocket
     const handleConnect = async () => {
@@ -169,6 +181,7 @@ const TopicContextProvider = (props) => {
         concentration,
         buildRadarData,
         total,
+        resetCharts,
     }
 
     return (

@@ -2,7 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import {
     Box,
     Grid,
-    Typography
+    Typography,
+    Paper
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ResponsiveLine } from "@nivo/line";
@@ -12,6 +13,10 @@ import { TopicContext } from '../contexts/TopicContext';
 const useStyles = makeStyles(() => ({
     chart: {
         marginTop: "2rem",
+    },
+    paper: {
+        backgroundColor: '#eceff1',
+        justifyContent: 'center',
     },
     box: {
         width: "100wh",
@@ -39,8 +44,10 @@ const Chart = ({ title, data }) => {
         let dataPoints = [];
         let averageArray = []
         for (let i = 0; i < dataArray.length; i++) {
+            let secondsArray = dataArray[i].label.split(' ');
+            let secondsNum = secondsArray[0];
             let dataPoint = {
-                x: dataArray[i].label,
+                x: secondsNum,
                 y: dataArray[i].value,
             };
             dataPoints.push(dataPoint);
@@ -62,88 +69,89 @@ const Chart = ({ title, data }) => {
             setShowGraph(true)
         }// eslint-disable-next-line
     }, [data])
-
     return (
         showGraph &&
         <Grid item xs={12} sm={6} className={classes.chart} >
-            <Typography variant="h6" gutterBottom className={classes.title}>
-                {title}
+            <Paper elevation={2} className={classes.paper} >
+                <Typography variant="h6" gutterBottom className={classes.title}>
+                    {title}
+                </Typography>
+                <Typography variant="button" display="block" gutterBottom>
+                    Average: {currentAvg}%
             </Typography>
-            <Typography variant="button" display="block" gutterBottom>
-                Current Average: {currentAvg}%
-            </Typography>
-            <Box className={classes.box} >
-                <ResponsiveLine
-                    data={chart}
-                    margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
-                    xScale={{ type: "point" }}
-                    yScale={{
-                        type: "linear",
-                        min: 0,
-                        max: 100,
-                        stacked: false,
-                        reverse: false,
-                    }}
-                    yFormat=" >-.2f"
-                    curve="monotoneX"
-                    axisTop={null}
-                    axisRight={null}
-                    axisBottom={{
-                        orient: "bottom",
-                        tickSize: 5,
-                        tickPadding: 5,
-                        tickRotation: 0,
-                        legend: "Time in Game Round",
-                        legendOffset: 36,
-                        legendPosition: "middle",
-                    }}
-                    axisLeft={{
-                        orient: "left",
-                        tickSize: 5,
-                        tickPadding: 5,
-                        tickRotation: 0,
-                        legend: "Percentage",
-                        legendOffset: -40,
-                        legendPosition: "middle",
-                    }}
-                    //enableSlices="x"
-                    enableGridX={true}
-                    enableGridY={true}
-                    colors={{ scheme: "pink_yellowGreen" }}
-                    pointSize={4}
-                    pointColor={{ theme: "background" }}
-                    pointBorderWidth={2}
-                    pointBorderColor={{ from: "serieColor" }}
-                    pointLabelYOffset={-12}
-                    useMesh={true}
-                    legends={[
-                        {
-                            anchor: "top",
-                            direction: "row",
-                            justify: false,
-                            translateX: 0,
-                            translateY: -30,
-                            itemsSpacing: 10,
-                            itemDirection: "left-to-right",
-                            itemWidth: 80,
-                            itemHeight: 30,
-                            itemOpacity: 0.75,
-                            symbolSize: 12,
-                            symbolShape: "circle",
-                            symbolBorderColor: "rgba(0, 0, 0, .5)",
-                            effects: [
-                                {
-                                    on: "hover",
-                                    style: {
-                                        itemBackground: "rgba(0, 0, 0, .03)",
-                                        itemOpacity: 1,
+                <Box className={classes.box} >
+                    <ResponsiveLine
+                        data={chart}
+                        margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
+                        xScale={{ type: "point" }}
+                        yScale={{
+                            type: "linear",
+                            min: 0,
+                            max: 100,
+                            stacked: false,
+                            reverse: false,
+                        }}
+                        yFormat=" >-.2f"
+                        curve="monotoneX"
+                        axisTop={null}
+                        axisRight={null}
+                        axisBottom={{
+                            orient: "bottom",
+                            tickSize: 5,
+                            tickPadding: 5,
+                            tickRotation: 0,
+                            legend: "Time in Game Round (Seconds)",
+                            legendOffset: 36,
+                            legendPosition: "middle",
+                        }}
+                        axisLeft={{
+                            orient: "left",
+                            tickSize: 5,
+                            tickPadding: 5,
+                            tickRotation: 0,
+                            legend: "Percentage (%)",
+                            legendOffset: -40,
+                            legendPosition: "middle",
+                        }}
+                        //enableSlices="x"
+                        enableGridX={true}
+                        enableGridY={true}
+                        colors={{ scheme: "pink_yellowGreen" }}
+                        pointSize={4}
+                        pointColor={{ theme: "background" }}
+                        pointBorderWidth={2}
+                        pointBorderColor={{ from: "serieColor" }}
+                        pointLabelYOffset={-12}
+                        useMesh={true}
+                        legends={[
+                            {
+                                anchor: "top",
+                                direction: "row",
+                                justify: false,
+                                translateX: 0,
+                                translateY: -30,
+                                itemsSpacing: 10,
+                                itemDirection: "left-to-right",
+                                itemWidth: 80,
+                                itemHeight: 30,
+                                itemOpacity: 0.75,
+                                symbolSize: 12,
+                                symbolShape: "circle",
+                                symbolBorderColor: "rgba(0, 0, 0, .5)",
+                                effects: [
+                                    {
+                                        on: "hover",
+                                        style: {
+                                            itemBackground: "rgba(0, 0, 0, .03)",
+                                            itemOpacity: 1,
+                                        },
                                     },
-                                },
-                            ],
-                        },
-                    ]}
-                />
-            </Box>
+                                ],
+                            },
+                        ]}
+                    />
+                </Box>
+            </Paper>
         </Grid>
     )
 }

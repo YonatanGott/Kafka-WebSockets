@@ -6,7 +6,7 @@ import {
 } from '@material-ui/core';
 import LogCard from './LogCard';
 // API
-import { getAllLogs } from '../lib/api'
+import { getAllLogs, logPagination } from '../lib/api'
 import { makeStyles } from '@material-ui/core/styles';
 import Pagination from "@material-ui/lab/Pagination";
 
@@ -22,9 +22,8 @@ const GameLogs = () => {
     const classes = useStyles();
     const [logs, setLogs] = useState([])
     const [pages, setPages] = useState(0)
-    //const [pageItems, setPageItems] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
-    const [showPagination, setShowPagination] = useState(true);
+    const [showPagination, setShowPagination] = useState(false);
     const [loading, setLoading] = useState(false);
 
     const getLogs = async () => {
@@ -38,9 +37,11 @@ const GameLogs = () => {
     };
 
     // Pagination
-    const handleChangePage = (event, value) => {
+    const handleChangePage = async (event, value) => {
         setLoading(true);
-        setCurrentPage(value);
+        setCurrentPage(value)
+        let pageLogs = await logPagination(value)
+        setLogs(pageLogs)
         setLoading(false);
     };
 

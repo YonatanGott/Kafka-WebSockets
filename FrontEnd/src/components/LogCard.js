@@ -7,7 +7,7 @@ import {
     List,
     ListItem,
     ListItemText,
-    LinearProgress,
+    CircularProgress,
     Modal,
     Backdrop,
 } from '@material-ui/core';
@@ -22,7 +22,7 @@ const useStyles = makeStyles(() => ({
     },
     list: {
         overflow: "auto",
-        maxHeight: "40vh"
+        maxHeight: "50vh"
     },
     listItem: {
         '&:hover': {
@@ -134,7 +134,7 @@ const LogCard = ({ log, topics }) => {
                 }
                 {
                     loading &&
-                    <LinearProgress />
+                    <CircularProgress />
                 }
                 {
                     showSent &&
